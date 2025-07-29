@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #quiz-container {
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+    #options  {
+      display: grid;
+  gap: 16px;
+  max-width: 320px;
+  margin: auto;
+  padding: 20px;
+    }
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      display: none;
+    }
+  </style>
+</head>
+<body background="images/black-space-background-9lnv16cb5dyowb4j.jpg" style="color:white; background-size: cover; background-attachment: fixed;">
+
+  <div id="quiz-container">
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <button id="next-btn">Next</button>
+    <p id="score"></p>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "1. What is the most abundant element in the universe?",
+        options: ["A. Helium", "B. Oxygen", "C. Hydrogen","D. Carbon"],
+        correct: 2
+      },
+      {
+        question: "2. What is the name of the boundary around a black hole beyond which nothing can escape?",
+        options: ["A. Singularity", "B. Photon Sphere", "C. Neutron Shell","D. Event Horizon"],
+        correct: 3
+      },
+      {
+        question: "3. Which law relates the luminosity of a star to its temperature and radius?",
+        options: ["A. Gravitational pull of black holes", "B. Expansion of the universe", "C. Interference with cosmic dust","D. Doppler effect of local stars"],
+        correct: 1
+      },
+        {
+            question: "4. What is the primary source of energy for stars?",
+            options: ["A. Nuclear Fusion", "B. Chemical Reactions", "C. Gravitational Contraction","D. Electromagnetic Radiation"],
+            correct: 0
+        },
+      {
+        question: "5. What type of star is the Sun classified as?",
+        options: ["A. Red Giant", "B. Neutron Star", "C. White Dwarf", "D. G-type Main-Sequence Star"],
+        correct: 3
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const scoreEl = document.getElementById("score");
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(index);
+        optionsEl.appendChild(btn);
+      });
+      nextBtn.style.display = "none";
+    }
+
+    function checkAnswer(selectedIndex) {
+      if (selectedIndex === questions[currentQuestion].correct) {
+        score++;
+      }
+      nextBtn.style.display = "block";
+      Array.from(optionsEl.children).forEach((btn, index) => {
+        btn.disabled = true;
+        btn.style.backgroundColor = index === questions[currentQuestion].correct ? "#aaf" : "#f99";
+      });
+    }
+
+    nextBtn.onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showScore();
+      }
+    };
+
+    function showScore() {
+      questionEl.textContent = "Quiz Complete!";
+      optionsEl.innerHTML = "";
+      nextBtn.style.display = "none";
+      scoreEl.textContent = `Your Score: ${score} / ${questions.length}`;
+    }
+
+    // Start the quiz
+    loadQuestion();
+  </script>
+
+</body>
+</html>
+    </body>
+</html>

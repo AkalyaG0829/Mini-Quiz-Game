@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #quiz-container {
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+    #options  {
+      display: grid;
+  gap: 16px;
+  max-width: 320px;
+  margin: auto;
+  padding: 20px;
+    }
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      display: none;
+    }
+  </style>
+</head>
+<body background="images/Screenshot 2025-07-29 195149.png" style="color:rgb(1, 0, 0); background-size: cover; background-attachment: fixed;">
+
+  <div id="quiz-container">
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <button id="next-btn">Next</button>
+    <p id="score"></p>
+  </div>
+
+  <script>
+   const questions = [
+  {
+    question: "1. Which of the following is a real account?",
+    options: ["A) Capital Account", "B) Rent Account", "C) Machinery Account", "D) Salary Account"],
+    correct: 2
+  },
+  {
+    question: "2. What is the basic accounting equation?",
+    options: ["A) Assets = Liabilities + Capital", "B) Capital = Assets + Liabilities", "C) Assets = Income - Expenses", "D) Liabilities = Assets + Capital"],
+    correct: 0
+  },
+  {
+    question: "3. Which book is known as the book of original entry?",
+    options: ["A) Ledger", "B) Journal", "C) Trial Balance", "D) Balance Sheet"],
+    correct: 1
+  },
+  {
+    question: "4. What type of account is 'Sales'? ",
+    options: ["A) Personal", "B) Real", "C) Nominal", "D) Capital"],
+    correct: 2
+  },
+  {
+    question: "5. Which financial statement shows the financial position of a business?",
+    options: ["A) Trial Balance", "B) Ledger", "C) Balance Sheet", "D) Profit and Loss Account"],
+    correct: 2
+  }
+];
+
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const scoreEl = document.getElementById("score");
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(index);
+        optionsEl.appendChild(btn);
+      });
+      nextBtn.style.display = "none";
+    }
+
+    function checkAnswer(selectedIndex) {
+      if (selectedIndex === questions[currentQuestion].correct) {
+        score++;
+      }
+      nextBtn.style.display = "block";
+      Array.from(optionsEl.children).forEach((btn, index) => {
+        btn.disabled = true;
+        btn.style.backgroundColor = index === questions[currentQuestion].correct ? "#aaf" : "#f99";
+      });
+    }
+
+    nextBtn.onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showScore();
+      }
+    };
+
+    function showScore() {
+      questionEl.textContent = "Quiz Complete!";
+      optionsEl.innerHTML = "";
+      nextBtn.style.display = "none";
+      scoreEl.textContent = `Your Score: ${score} / ${questions.length}`;
+    }
+
+    // Start the quiz
+    loadQuestion();
+  </script>
+
+</body>
+</html>
+    </body>
+</html>

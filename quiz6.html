@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #quiz-container {
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+    #options  {
+      display: grid;
+  gap: 16px;
+  max-width: 320px;
+  margin: auto;
+  padding: 20px;
+    }
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      display: none;
+    }
+  </style>
+</head>
+<body background="images/Screenshot 2025-07-29 194501.png" style="color:white; background-size: cover; background-attachment: fixed;">
+
+  <div id="quiz-container">
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <button id="next-btn">Next</button>
+    <p id="score"></p>
+  </div>
+
+  <script>
+   const questions = [
+  {
+    question: "1. What is the basic problem of economics?",
+    options: ["A) Inflation", "B) Scarcity", "C) Unemployment", "D) Distribution"],
+    correct: 1
+  },
+  {
+    question: "2. What is GDP a measure of?",
+    options: ["A) Government debt", "B) Inflation rate", "C) Total income of a nation", "D) Unemployment rate"],
+    correct: 2
+  },
+  {
+    question: "3. Which market structure features only one seller?",
+    options: ["A) Monopoly", "B) Oligopoly", "C) Perfect Competition", "D) Monopolistic Competition"],
+    correct: 0
+  },
+  {
+    question: "4. What is 'demand' in economics?",
+    options: ["A) Quantity supplied at high price", "B) Desire backed by ability to pay", "C) Total market supply", "D) National output"],
+    correct: 1
+  },
+  {
+    question: "5. Who is known as the father of modern economics?",
+    options: ["A) John Maynard Keynes", "B) Milton Friedman", "C) Adam Smith", "D) Karl Marx"],
+    correct: 2
+  }
+];
+
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const scoreEl = document.getElementById("score");
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(index);
+        optionsEl.appendChild(btn);
+      });
+      nextBtn.style.display = "none";
+    }
+
+    function checkAnswer(selectedIndex) {
+      if (selectedIndex === questions[currentQuestion].correct) {
+        score++;
+      }
+      nextBtn.style.display = "block";
+      Array.from(optionsEl.children).forEach((btn, index) => {
+        btn.disabled = true;
+        btn.style.backgroundColor = index === questions[currentQuestion].correct ? "#aaf" : "#f99";
+      });
+    }
+
+    nextBtn.onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showScore();
+      }
+    };
+
+    function showScore() {
+      questionEl.textContent = "Quiz Complete!";
+      optionsEl.innerHTML = "";
+      nextBtn.style.display = "none";
+      scoreEl.textContent = `Your Score: ${score} / ${questions.length}`;
+    }
+
+    // Start the quiz
+    loadQuestion();
+  </script>
+
+</body>
+</html>
+    </body>
+</html>
